@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Select Call Type</h2>
+<div class="list-group">
+    {% for ct in call_types %}
+    <a href="{{ url_for('call_sub_menu', call_type=ct) }}" class="list-group-item list-group-item-action">
+        {{ ct.capitalize() if ct != 'at-risk' else 'At-Risk' }} Call
+    </a>
+    {% endfor %}
+</div>
+{% endblock %} 

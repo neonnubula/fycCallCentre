@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ call_type.capitalize() }} Call</h2>
+<p>Select an option:</p>
+<div class="list-group">
+    {% for option in checklist_options %}
+    <a href="{{ url_for('checklist', call_type=call_type, checklist_type=option) }}" class="list-group-item list-group-item-action">
+        {{ option.capitalize() }}
+    </a>
+    {% endfor %}
+</div>
+{% endblock %} 

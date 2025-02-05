@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ call_type.capitalize() }} - {{ checklist_type.capitalize() }}</h2>
+
+<ul class="list-group mb-3">
+    {% for task in tasks %}
+    <li class="list-group-item">
+        {% if task.text == "Objection" and (task.call_type in ["sales", "support"]) and (task.checklist_type == "start call") %}
+            <strong>Objection</strong>
+            {%
