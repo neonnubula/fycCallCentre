@@ -1,10 +1,43 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>{{ call_type.capitalize() }} - {{ checklist_type.capitalize() }}</h2>
+  <h2>{{ call_type.capitalize() }} - {{ checklist_type.capitalize() }}</h2>
 
-<ul class="list-group mb-3">
+  <ul class="list-group mb-3">
     {% for task in tasks %}
-    <li class="list-group-item">
+      <li class="list-group-item">
         {% if task.text == "Objection" and (task.call_type in ["sales", "support"]) and (task.checklist_type == "start call") %}
-            <strong>Objection</strong>
-            {%
+          <strong>Objection</strong>
+          <a href="{{ url_for('toggle_task', task_id=task.id) }}" class="btn btn-secondary btn-sm float-end">Init/Toggle Subtasks</a>
+        {% else %}
+          {{ task.text }}
+          <a href="{{ url_for('toggle_task', task_id=task.id) }}" class="btn btn-sm {% if task.done %}btn-success{% else %}btn-outline-secondary{% endif %} float-end">
+            {% if task.done %}Undo{% else %}Done{% endif %}
+          </a>
+          <a href="{{ url_for('edit_task', task_id=task.id) }}" class="btn btn-sm btn-outline-primary float-end me-2">Edit</a>
+          <a href="{{ url_for('delete_task', task_id=task.id) }}" class="btn btn-sm btn-outline-danger float-end me-2">Delete</a>
+        {% endif %}
+      </li>
+      {% if task.text == "Objection" and task.subtasks %}
+        <ul class="list-group mb-3">
+          {% for sub in task.subtasks %}
+            <li class="list-group-item">
+              {{ sub.text }}
+              <a href="{{ url_for('toggle_subtask', subtask_id=sub.id) }}" class="btn btn-sm {% if sub.done %}btn-success{% else %}btn-outline-secondary{% endif %} float-end">
+                {% if sub.done %}Undo{% else %}Done{% endif %}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endfor %}
+  </ul>
+
+  <form action="{{ url_for('add_task', call_type=call_type, checklist_type=checklist_type) }}" method="post">
+    <div class="input-group">
+      <input type="text" name="task_text" class="form-control" placeholder="Add new task..." required>
+      <button class="btn btn-outline-primary" type="submit">Add Task</button>
+    </div>
+  </form>
+
+  <a href="{{ url_for('new_call', call_type=call_type, checklist_type=checklist_type) }}" class="btn btn-warning mt-3">Reset Checklist</a>
+{% endblock %}
