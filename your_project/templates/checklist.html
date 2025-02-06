@@ -6,17 +6,10 @@
     {% for task in tasks %}
       <li class="list-group-item d-flex justify-content-between align-items-center">
         <a href="{{ url_for('toggle_task', task_id=task.id) }}"
-           class="button-emoji {% if task.done %}done-task{% endif %} flex-grow-1 text-start">
+           class="button-emoji task-text {% if task.done %}done-task{% endif %} text-start">
           {{ task.text }}
         </a>
         <div>
-          {% if task.text == "Objection" and (task.call_type in ["sales", "support"]) and (task.checklist_type == "start call") %}
-            <a class="button-emoji" data-bs-toggle="collapse"
-               href="#subChecklist{{ task.id }}" role="button"
-               aria-expanded="false" aria-controls="subChecklist{{ task.id }}">
-              👁️
-            </a>
-          {% endif %}
           <a href="{{ url_for('edit_task', task_id=task.id) }}" class="button-emoji">✏️</a>
           <a href="{{ url_for('delete_task', task_id=task.id) }}" class="button-emoji">🗑️</a>
         </div>
@@ -27,7 +20,7 @@
             {% for sub in task.subtasks %}
               <li class="list-group-item d-flex justify-content-between align-items-center">
                 <a href="{{ url_for('toggle_subtask', subtask_id=sub.id) }}"
-                   class="button-emoji {% if sub.done %}done-task{% endif %} flex-grow-1 text-start">
+                   class="button-emoji sub-task {% if sub.done %}done-task{% endif %} text-start">
                   {{ sub.text }}
                 </a>
                 <a href="{{ url_for('edit_task', task_id=sub.id) }}" class="button-emoji">✏️</a>
