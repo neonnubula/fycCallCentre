@@ -14,19 +14,13 @@
           <a href="{{ url_for('delete_task', task_id=task.id) }}" class="button-emoji">🗑️</a>
         </div>
       </li>
-      {% if task.text == "Objection" and (task.call_type in ["sales", "support"]) and (task.checklist_type == "start call") and task.subtasks %}
-        <div class="collapse {% if task.done %}show{% endif %}" id="subChecklist{{ task.id }}">
-          <ul class="list-group mt-2">
-            {% for sub in task.subtasks %}
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="{{ url_for('toggle_subtask', subtask_id=sub.id) }}"
-                   class="button-emoji sub-task {% if sub.done %}done-task{% endif %} text-start">
-                  {{ sub.text }}
-                </a>
-                <a href="{{ url_for('edit_task', task_id=sub.id) }}" class="button-emoji">✏️</a>
-                <a href="{{ url_for('delete_task', task_id=sub.id) }}" class="button-emoji">🗑️</a>
-              </li>
-            {% endfor %}
+      {% if task.text == "Objection" and (task.call_type in ["sales", "support"]) and (task.checklist_type == "start call") %}
+        <div class="objection-subchecklist collapse {% if task.done %}show{% endif %}" id="subChecklist{{ task.id }}">
+          <ul class="list-group">
+             <li class="list-group-item objection-item">Listen &amp; Acknowledge</li>
+             <li class="list-group-item objection-item">Clarify &amp; Question</li>
+             <li class="list-group-item objection-item">Address the Objection</li>
+             <li class="list-group-item objection-item">Confirm &amp; Close</li>
           </ul>
         </div>
       {% endif %}

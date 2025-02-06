@@ -109,3 +109,27 @@ body {
         padding: 5px 10px;
     }
 }
+
+/* -------------------------
+   Styles for the Objection Sub‑Checklist
+   ------------------------- */
+.objection-subchecklist {
+    background-color: #f2f2f2; /* Light grey container background */
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.objection-subchecklist ul {
+    margin: 0;
+    padding: 0;
+}
+
+.objection-item {
+    font-size: 0.9rem;  /* Smaller font for sub‑checklist items */
+    padding: 5px 10px;
+    background-color: #e7f7ff; /* Light blue accent for sub‑items */
+    margin-bottom: 5px;
+    border: 1px solid #cce5ff;
+    border-radius: 4px;
+}

@@ -163,6 +163,33 @@ def populate_default_tasks(user, call_type, checklist_type):
             db.session.add(new_task)
         db.session.commit()
 
+    # For Sales/Support Start Call, add the objection task and its sub‑checklist
+    if checklist_type.lower() == "start call" and call_type.lower() in ["sales", "support"]:
+        # Create the main objection task
+        objection_task = Task(
+            user_id=user.id,
+            call_type=call_type,
+            checklist_type=checklist_type,
+            text="Objection",
+            done=False
+        )
+        db.session.add(objection_task)
+        db.session.flush()  # flush so we get objection_task.id for the subtasks
+        
+        # Create the objection sub‑checklist using the items from example.py
+        objection_subtasks = [
+            Task(user_id=user.id, call_type=call_type, checklist_type=checklist_type, 
+                 text="Listen & Acknowledge", done=False, parent_task_id=objection_task.id),
+            Task(user_id=user.id, call_type=call_type, checklist_type=checklist_type, 
+                 text="Clarify & Question", done=False, parent_task_id=objection_task.id),
+            Task(user_id=user.id, call_type=call_type, checklist_type=checklist_type, 
+                 text="Address the Objection", done=False, parent_task_id=objection_task.id),
+            Task(user_id=user.id, call_type=call_type, checklist_type=checklist_type, 
+                 text="Confirm & Close", done=False, parent_task_id=objection_task.id)
+        ]
+        db.session.add_all(objection_subtasks)
+        db.session.commit()
+
 
 # ----- Routes -----
 @app.route("/")
@@ -289,23 +316,20 @@ def edit_task(task_id):
     return render_template("edit_task.html", task=task)
 
 
-@app.route("/new_call/<call_type>/<checklist_type>")
+@app.route('/new_call/<call_type>/<checklist_type>', methods=['GET'])
 @login_required
 def new_call(call_type, checklist_type):
-    tasks = Task.query.filter_by(
-        user_id=current_user.id,
-        call_type=call_type,
-        checklist_type=checklist_type,
-        parent_task_id=None
-    ).all()
+    # Delete all tasks for the current user with the provided call type and checklist type.
+    tasks = Task.query.filter_by(user_id=current_user.id, call_type=call_type, checklist_type=checklist_type).all()
     for task in tasks:
-        task.done = False
-        if task.subtasks:
-            for sub in task.subtasks:
-                sub.done = False
+        db.session.delete(task)
     db.session.commit()
-    flash("Checklist reset", "info")
-    return redirect(url_for("home"))
+
+    # Re-populate the default tasks (which includes the Objection task and its sub‑checklist if applicable)
+    populate_default_tasks(current_user, call_type, checklist_type)
+    
+    flash("Checklist has been refreshed for a new call.", "success")
+    return redirect(url_for('checklist', call_type=call_type, checklist_type=checklist_type))
 
 
 # ----- Authentication Routes -----
