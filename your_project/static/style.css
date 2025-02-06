@@ -27,21 +27,46 @@ body {
     color: #fff !important;
 }
 
-/* Updated emoji button styling */
+/* Updated emoji button styling for an elegant, rounded look */
 .button-emoji {
     font-size: 1.2rem;
     padding: 8px 16px;
     border: none;
     background-color: #007bff;
     color: #fff;
-    border-radius: 25px;  /* more rounded and elegant */
+    border-radius: 25px;    /* more rounded/oval */
     margin-right: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s;
     text-decoration: none;
+    white-space: nowrap;
 }
 
 .button-emoji:hover {
     background-color: #0056b3;
     transform: translateY(-2px);
+}
+
+/* "Done" tasks (when buttons are hit) have strike-through and turn green */
+.done-task {
+    text-decoration: line-through;
+    opacity: 0.7;
+    background-color: #28a745 !important;  /* green */
+    border-color: #28a745 !important;
+}
+
+/* Ensure list-group items don't wrap on smaller screens */
+.list-group-item {
+    white-space: nowrap;
+}
+
+/* Responsive font and padding adjustments on smaller screens */
+@media (max-width: 600px) {
+    .list-group-item,
+    .button-emoji {
+        font-size: 0.875rem; /* slightly smaller font size, ~14px */
+    }
+    .button-emoji {
+        padding: 6px 12px;  /* adjust padding so everything fits nicely */
+    }
 }
