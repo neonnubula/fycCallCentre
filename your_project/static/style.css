@@ -1,0 +1,45 @@
+/* static/style.css */
+
+body {
+    background-color: #e9f2f9; /* a light, subtle blue background */
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.custom-container {
+    max-width: 480px;  /* a thin layout */
+    margin: 30px auto; /* center horizontally */
+    background-color: #fff; /* white background */
+    border: 1px solid #007bff; /* blue border */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Style the navbar to have a blue background */
+.navbar {
+    background-color: #007bff;
+}
+
+.navbar-brand,
+.nav-link {
+    color: #fff !important;
+}
+
+/* Emoji button styling */
+.button-emoji {
+    font-size: 1.2rem;
+    padding: 5px 10px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-emoji:hover {
+    background-color: #0056b3;
+}
